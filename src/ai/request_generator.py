@@ -100,9 +100,7 @@ Ursprünglicher Antrag:
 Verbesserte Version:"""
 
         try:
-            enhanced = self.ollama.generate(
-                prompt=user_prompt, system=system_prompt, temperature=0.7
-            )
+            enhanced = self.ollama.generate(prompt=user_prompt, system=system_prompt, temperature=0.7)
 
             if enhanced:
                 logger.info("AI-enhanced request generated successfully")

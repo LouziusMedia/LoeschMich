@@ -69,9 +69,7 @@ def test_send_request(orchestrator, temp_db):
     company_id = temp_db.add_company(company)
     company.id = company_id
 
-    request_id = orchestrator.create_and_send_request(
-        company=company, user_name="Test User", auto_send=False
-    )
+    request_id = orchestrator.create_and_send_request(company=company, user_name="Test User", auto_send=False)
 
     # Send the request
     result = orchestrator.send_request(request_id)
@@ -92,9 +90,7 @@ def test_send_reminder(orchestrator, temp_db):
     company_id = temp_db.add_company(company)
     company.id = company_id
 
-    request_id = orchestrator.create_and_send_request(
-        company=company, user_name="Test User", auto_send=True
-    )
+    request_id = orchestrator.create_and_send_request(company=company, user_name="Test User", auto_send=True)
 
     # Send reminder
     result = orchestrator.send_reminder(request_id)
@@ -111,9 +107,7 @@ def test_process_response(orchestrator, temp_db):
     company_id = temp_db.add_company(company)
     company.id = company_id
 
-    request_id = orchestrator.create_and_send_request(
-        company=company, user_name="Test User", auto_send=True
-    )
+    request_id = orchestrator.create_and_send_request(company=company, user_name="Test User", auto_send=True)
 
     # Process response
     response_text = "Ihre Daten wurden vollständig gelöscht."
@@ -134,9 +128,7 @@ def test_execute_pending_tasks(orchestrator, temp_db):
     company.id = company_id
 
     # Create and send request (this schedules tasks)
-    request_id = orchestrator.create_and_send_request(
-        company=company, user_name="Test User", auto_send=True
-    )
+    request_id = orchestrator.create_and_send_request(company=company, user_name="Test User", auto_send=True)
 
     # Get pending tasks
     tasks = temp_db.get_pending_tasks(datetime(2099, 12, 31))

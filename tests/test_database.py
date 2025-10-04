@@ -7,7 +7,13 @@ from pathlib import Path
 import pytest
 
 from src.core.database import Database
-from src.core.models import Company, GDPRRequest, RequestStatus, RequestType, WorkflowTask
+from src.core.models import (
+    Company,
+    GDPRRequest,
+    RequestStatus,
+    RequestType,
+    WorkflowTask,
+)
 
 
 @pytest.fixture
@@ -25,9 +31,7 @@ def temp_db():
 
 def test_add_company(temp_db):
     """Test adding a company"""
-    company = Company(
-        name="Test Company", email="test@example.com", website="https://test.com"
-    )
+    company = Company(name="Test Company", email="test@example.com", website="https://test.com")
 
     company_id = temp_db.add_company(company)
     assert company_id > 0
@@ -126,9 +130,7 @@ def test_list_requests_by_status(temp_db):
     company_id = temp_db.add_company(company)
 
     # Add multiple requests with different statuses
-    for i, status in enumerate(
-        [RequestStatus.DRAFT, RequestStatus.SENT, RequestStatus.COMPLETED]
-    ):
+    for i, status in enumerate([RequestStatus.DRAFT, RequestStatus.SENT, RequestStatus.COMPLETED]):
         request = GDPRRequest(
             company_id=company_id,
             company_name="Test Co",

@@ -67,11 +67,7 @@ class EmailSender:
             # Create message
             msg = MIMEMultipart("alternative")
             msg["Subject"] = subject
-            msg["From"] = (
-                f"{self.sender_name} <{self.sender_email}>"
-                if self.sender_name
-                else self.sender_email
-            )
+            msg["From"] = f"{self.sender_name} <{self.sender_email}>" if self.sender_name else self.sender_email
             msg["To"] = to_email
             msg["Date"] = datetime.now().strftime("%a, %d %b %Y %H:%M:%S %z")
 

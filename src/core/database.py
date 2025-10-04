@@ -101,15 +101,9 @@ class Database:
             )
 
             # Create indexes
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_requests_status ON gdpr_requests(status)"
-            )
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_requests_company ON gdpr_requests(company_id)"
-            )
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_tasks_scheduled ON workflow_tasks(scheduled_at)"
-            )
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_requests_status ON gdpr_requests(status)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_requests_company ON gdpr_requests(company_id)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_tasks_scheduled ON workflow_tasks(scheduled_at)")
 
     # Company operations
     def add_company(self, company: Company) -> int:
@@ -217,9 +211,7 @@ class Database:
                 return GDPRRequest(**data)
             return None
 
-    def list_requests(
-        self, status: Optional[RequestStatus] = None
-    ) -> List[GDPRRequest]:
+    def list_requests(self, status: Optional[RequestStatus] = None) -> List[GDPRRequest]:
         """List requests, optionally filtered by status"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
@@ -239,9 +231,7 @@ class Database:
                 requests.append(GDPRRequest(**data))
             return requests
 
-    def update_request_status(
-        self, request_id: int, status: RequestStatus, notes: Optional[str] = None
-    ):
+    def update_request_status(self, request_id: int, status: RequestStatus, notes: Optional[str] = None):
         """Update request status"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
@@ -302,9 +292,7 @@ class Database:
             )
             return cursor.lastrowid
 
-    def get_pending_tasks(
-        self, before: Optional[datetime] = None
-    ) -> List[WorkflowTask]:
+    def get_pending_tasks(self, before: Optional[datetime] = None) -> List[WorkflowTask]:
         """Get pending tasks scheduled before a certain time"""
         before = before or datetime.now()
         with self.get_connection() as conn:

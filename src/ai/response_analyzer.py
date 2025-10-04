@@ -25,9 +25,7 @@ class ResponseAnalyzer:
         self.ollama = OllamaClient() if use_ai else None
 
         if use_ai and self.ollama and not self.ollama.is_available():
-            logger.warning(
-                "Ollama is not available. Response analysis will be limited."
-            )
+            logger.warning("Ollama is not available. Response analysis will be limited.")
             self.use_ai = False
 
     def analyze_response(self, response_text: str) -> Dict[str, Any]:
@@ -85,9 +83,7 @@ Antworte im JSON-Format:
 Analyse (JSON):"""
 
         try:
-            result = self.ollama.generate(
-                prompt=user_prompt, system=system_prompt, temperature=0.3
-            )
+            result = self.ollama.generate(prompt=user_prompt, system=system_prompt, temperature=0.3)
 
             if result:
                 # Try to parse JSON

@@ -38,9 +38,7 @@ def test_validate_config(email_sender):
 
 def test_send_email_success(email_sender, mock_smtp):
     """Test successful email sending"""
-    result = email_sender.send_email(
-        to_email="recipient@example.com", subject="Test Subject", body="Test Body"
-    )
+    result = email_sender.send_email(to_email="recipient@example.com", subject="Test Subject", body="Test Body")
 
     assert result is True
     assert mock_smtp.starttls.called

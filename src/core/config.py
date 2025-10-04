@@ -32,9 +32,7 @@ class Config:
     OLLAMA_MODEL: str = os.getenv("OLLAMA_MODEL", "llama2")
 
     # Database Configuration
-    DATABASE_PATH: Path = Path(
-        os.getenv("DATABASE_PATH", str(DATA_DIR / "gdpr_requests.db"))
-    )
+    DATABASE_PATH: Path = Path(os.getenv("DATABASE_PATH", str(DATA_DIR / "gdpr_requests.db")))
 
     # Logging
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")

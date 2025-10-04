@@ -64,9 +64,7 @@ class OllamaClient:
 
         try:
             logger.debug(f"Generating text with model {model}")
-            response = requests.post(
-                f"{self.api_url}/generate", json=payload, timeout=120
-            )
+            response = requests.post(f"{self.api_url}/generate", json=payload, timeout=120)
             response.raise_for_status()
 
             result = response.json()
@@ -112,9 +110,7 @@ class OllamaClient:
         """Pull/download a model"""
         try:
             logger.info(f"Pulling model {model}...")
-            response = requests.post(
-                f"{self.api_url}/pull", json={"name": model}, timeout=600
-            )
+            response = requests.post(f"{self.api_url}/pull", json={"name": model}, timeout=600)
             response.raise_for_status()
             logger.info(f"Model {model} pulled successfully")
             return True

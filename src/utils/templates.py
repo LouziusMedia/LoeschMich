@@ -113,9 +113,7 @@ class TemplateManager:
     }
 
     @classmethod
-    def render_template(
-        cls, request_type: RequestType | str, language: str = "de", **kwargs
-    ) -> str:
+    def render_template(cls, request_type: RequestType | str, language: str = "de", **kwargs) -> str:
         """Render a template with given variables"""
 
         template_key = (request_type, language)

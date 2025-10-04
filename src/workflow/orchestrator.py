@@ -89,9 +89,7 @@ class WorkflowOrchestrator:
             return False
 
         # Send email
-        success = self.email_sender.send_email(
-            to_email=company.email, subject=request.subject, body=request.body
-        )
+        success = self.email_sender.send_email(to_email=company.email, subject=request.subject, body=request.body)
 
         if success:
             # Update status
@@ -107,9 +105,7 @@ class WorkflowOrchestrator:
             logger.info(f"Request {request_id} sent successfully")
             return True
         else:
-            self.db.update_request_status(
-                request_id, RequestStatus.FAILED, notes="Failed to send email"
-            )
+            self.db.update_request_status(request_id, RequestStatus.FAILED, notes="Failed to send email")
             return False
 
     def _schedule_followup_tasks(self, request_id: int):
@@ -135,9 +131,7 @@ class WorkflowOrchestrator:
             status="pending",
         )
         self.db.add_task(escalation_task)
-        logger.info(
-            f"Scheduled escalation for request {request_id} at {escalation_date}"
-        )
+        logger.info(f"Scheduled escalation for request {request_id} at {escalation_date}")
 
     def send_reminder(self, request_id: int) -> bool:
         """Send a reminder for a pending request"""
@@ -149,9 +143,7 @@ class WorkflowOrchestrator:
 
         # Don't send reminder if already completed
         if request.status in [RequestStatus.COMPLETED, RequestStatus.REJECTED]:
-            logger.info(
-                f"Request {request_id} already {request.status.value}, skipping reminder"
-            )
+            logger.info(f"Request {request_id} already {request.status.value}, skipping reminder")
             return False
 
         company = self.db.get_company(request.company_id)
@@ -167,9 +159,7 @@ class WorkflowOrchestrator:
         )
 
         # Send email
-        success = self.email_sender.send_email(
-            to_email=company.email, subject=subject, body=body
-        )
+        success = self.email_sender.send_email(to_email=company.email, subject=subject, body=body)
 
         if success:
             self.db.add_reminder(request_id)
@@ -189,9 +179,7 @@ class WorkflowOrchestrator:
 
         # Don't escalate if already completed
         if request.status in [RequestStatus.COMPLETED, RequestStatus.REJECTED]:
-            logger.info(
-                f"Request {request_id} already {request.status.value}, skipping escalation"
-            )
+            logger.info(f"Request {request_id} already {request.status.value}, skipping escalation")
             return False
 
         company = self.db.get_company(request.company_id)
@@ -207,9 +195,7 @@ class WorkflowOrchestrator:
         )
 
         # Send email
-        success = self.email_sender.send_email(
-            to_email=company.email, subject=subject, body=body
-        )
+        success = self.email_sender.send_email(to_email=company.email, subject=subject, body=body)
 
         if success:
             self.db.update_request_status(
@@ -246,9 +232,7 @@ class WorkflowOrchestrator:
         new_status = status_mapping.get(analysis["type"], request.status)
 
         # Update database
-        self.db.update_request_status(
-            request_id, new_status, notes=f"Response analyzed: {analysis['summary']}"
-        )
+        self.db.update_request_status(request_id, new_status, notes=f"Response analyzed: {analysis['summary']}")
 
         # Store response text
         from ..core.database import Database
@@ -260,9 +244,7 @@ class WorkflowOrchestrator:
                 (response_text, request_id),
             )
 
-        logger.info(
-            f"Response processed for request {request_id}: {analysis['type'].value}"
-        )
+        logger.info(f"Response processed for request {request_id}: {analysis['type'].value}")
 
         return analysis
 
@@ -289,9 +271,7 @@ class WorkflowOrchestrator:
                     self.db.update_task_status(task.id, "completed", result="Success")
                     executed_count += 1
                 else:
-                    self.db.update_task_status(
-                        task.id, "failed", error="Execution failed"
-                    )
+                    self.db.update_task_status(task.id, "failed", error="Execution failed")
 
             except Exception as e:
                 logger.error(f"Error executing task {task.id}: {e}")
