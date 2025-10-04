@@ -1,4 +1,7 @@
 # 🔒 Automatisierte DSGVO-Löschanfragen mit Open-Source-KI
+[![CI](https://github.com/LouziusMedia/LoeschMich/actions/workflows/ci.yml/badge.svg)](https://github.com/LouziusMedia/LoeschMich/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Ein kostenfreies, Open-Source-Tool zur automatisierten Erstellung und Verwaltung von DSGVO-Löschanfragen (Art. 17 DSGVO) mit lokaler KI-Unterstützung.
 
@@ -34,8 +37,8 @@ Dieses Tool ermöglicht es Nutzern, ihre Rechte nach der DSGVO effizient wahrzun
 
 ```bash
 # Repository klonen
-git clone https://github.com/yourusername/gdpr-deletion-tool.git
-cd gdpr-deletion-tool
+git clone https://github.com/LouziusMedia/LoeschMich.git
+cd LoeschMich
 
 # Virtuelle Umgebung erstellen
 python -m venv venv
@@ -249,10 +252,7 @@ Dieses Projekt ist unter der **MIT-Lizenz** lizenziert - siehe [LICENSE](LICENSE
 - [Ollama](https://ollama.ai) für lokale KI-Modelle
 - Die Open-Source-Community
 
-## 📞 Kontakt & Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/gdpr-deletion-tool/issues)
-- **Diskussionen**: [GitHub Discussions](https://github.com/yourusername/gdpr-deletion-tool/discussions)
 
 ## 🗺️ Roadmap
 
