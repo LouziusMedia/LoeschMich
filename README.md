@@ -1,4 +1,5 @@
 # 🔒 Automatisierte DSGVO-Löschanfragen mit Open-Source-KI
+[☕ Unterstützen: Buy me a coffee](https://buymeacoffee.com/louziusmedia)
 [![CI](https://github.com/LouziusMedia/LoeschMich/actions/workflows/ci.yml/badge.svg)](https://github.com/LouziusMedia/LoeschMich/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
