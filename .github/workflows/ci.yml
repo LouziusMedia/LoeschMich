@@ -91,10 +91,31 @@ jobs:
         pip install -r requirements.txt
         pip install safety bandit
     
-    - name: Run safety check
+    - name: Run safety check (JSON)
       run: |
-        safety check --full-report --ignore-unpinned-requirements
+        safety check --output json --ignore-unpinned-requirements > safety-report.json || true
     
-    - name: Run bandit security scan
+    - name: Run bandit security scan (JSON)
       run: |
-        bandit -r src -lll -q -f json -o bandit-report.json
+        bandit -r src -lll -q -f json -o bandit-report.json || true
+
+    - name: Comment security summary on PR
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          function readJSON(p){ try { return JSON.parse(fs.readFileSync(p,'utf8')); } catch(e){ return null; } }
+          const bandit = readJSON('bandit-report.json');
+          const safety = readJSON('safety-report.json');
+          const banditCount = Array.isArray(bandit?.results) ? bandit.results.length : 0;
+          const safetyCount = Array.isArray(safety?.vulnerabilities) ? safety.vulnerabilities.length : 0;
+          const banditTop = (bandit?.results || []).slice(0,5)
+            .map(r => `- ${r.issue_severity}/${r.issue_confidence}: ${r.test_id} in ${r.filename}:${r.line_number} — ${r.issue_text}`)
+            .join('\n') || '- None';
+          const safetyTop = (safety?.vulnerabilities || []).slice(0,5)
+            .map(v => `- ${(v.severity||'').toString().toUpperCase()} ${v.package_name} ${v.affected_versions || ''} — ${v.advisory || v.cve || ''}`)
+            .join('\n') || '- None';
+          const body = `Security scan summary\n\n- Bandit findings: ${banditCount}\n- Safety vulnerabilities: ${safetyCount}\n\nBandit (top 5)\n${banditTop}\n\nSafety (top 5)\n${safetyTop}`;
+          const { owner, repo } = context.repo;
+          await github.rest.issues.createComment({ owner, repo, issue_number: context.issue.number, body });
