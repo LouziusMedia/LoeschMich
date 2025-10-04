@@ -2,10 +2,10 @@
 
 from datetime import datetime
 from typing import Dict, Optional
+
 from jinja2 import Template
 
 from ..core.models import RequestType
-
 
 # German deletion request template (Art. 17 DSGVO)
 DELETION_REQUEST_DE = """Sehr geehrte Damen und Herren{% if company_name %} der {{ company_name }}{% endif %},
@@ -104,57 +104,55 @@ Datum: {{ date }}
 
 class TemplateManager:
     """Manage GDPR request templates"""
-    
+
     TEMPLATES = {
         (RequestType.DELETION, "de"): DELETION_REQUEST_DE,
         (RequestType.DELETION, "en"): DELETION_REQUEST_EN,
         ("reminder", "de"): REMINDER_DE,
         ("escalation", "de"): ESCALATION_DE,
     }
-    
+
     @classmethod
-    def render_template(cls, 
-                       request_type: RequestType | str,
-                       language: str = "de",
-                       **kwargs) -> str:
+    def render_template(cls, request_type: RequestType | str, language: str = "de", **kwargs) -> str:
         """Render a template with given variables"""
-        
+
         template_key = (request_type, language)
         template_str = cls.TEMPLATES.get(template_key)
-        
+
         if not template_str:
             raise ValueError(f"Template not found for {request_type} in {language}")
-        
+
         template = Template(template_str)
-        
+
         # Add default date if not provided
         if "date" not in kwargs:
             kwargs["date"] = datetime.now().strftime("%d.%m.%Y")
-        
+
         return template.render(**kwargs)
-    
+
     @classmethod
-    def get_subject(cls, 
-                   request_type: RequestType,
-                   language: str = "de") -> str:
+    def get_subject(cls, request_type: RequestType, language: str = "de") -> str:
         """Get email subject for request type"""
-        
+
         subjects = {
             (RequestType.DELETION, "de"): "DSGVO Löschantrag gemäß Art. 17 DSGVO",
-            (RequestType.DELETION, "en"): "GDPR Deletion Request according to Art. 17 GDPR",
+            (
+                RequestType.DELETION,
+                "en",
+            ): "GDPR Deletion Request according to Art. 17 GDPR",
             (RequestType.ACCESS, "de"): "DSGVO Auskunftsantrag gemäß Art. 15 DSGVO",
             (RequestType.ACCESS, "en"): "GDPR Access Request according to Art. 15 GDPR",
         }
-        
+
         return subjects.get((request_type, language), "DSGVO Antrag")
-    
+
     @classmethod
     def get_reminder_subject(cls, language: str = "de") -> str:
         """Get reminder email subject"""
         if language == "de":
             return "Erinnerung: DSGVO Löschantrag"
         return "Reminder: GDPR Deletion Request"
-    
+
     @classmethod
     def get_escalation_subject(cls, language: str = "de") -> str:
         """Get escalation email subject"""
