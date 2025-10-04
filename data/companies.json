@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Google LLC",
+    "email": "privacy-eu@google.com",
+    "website": "https://www.google.com",
+    "address": "Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland"
+  },
+  {
+    "name": "Meta Platforms Ireland Limited",
+    "email": "mydataprivacyrights@support.facebook.com",
+    "website": "https://www.facebook.com",
+    "address": "4 Grand Canal Square, Grand Canal Harbour, Dublin 2, Ireland"
+  },
+  {
+    "name": "Amazon EU S.à r.l.",
+    "email": "eu-privacy@amazon.de",
+    "website": "https://www.amazon.de",
+    "address": "38 avenue John F. Kennedy, L-1855 Luxembourg"
+  },
+  {
+    "name": "Microsoft Ireland Operations Limited",
+    "email": "gdprquestion@microsoft.com",
+    "website": "https://www.microsoft.com",
+    "address": "One Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Ireland"
+  }
+]

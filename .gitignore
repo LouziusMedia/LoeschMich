@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/*
+!logs/.gitkeep
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Data files
+data/requests/*.json
+data/responses/*.json
+data/tracking/*.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node.js (optional web automation)
+node_modules/
+package-lock.json
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# CI/CD
+.github/workflows/*.yml.bak

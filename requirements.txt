@@ -1,0 +1,42 @@
+# Core dependencies
+requests>=2.31.0
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+email-validator>=2.1.0
+
+# Email handling
+secure-smtplib>=0.1.1
+
+# Web automation
+selenium>=4.15.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# AI/ML frameworks
+ollama>=0.1.0
+langchain>=0.1.0
+langchain-community>=0.0.10
+
+# Privacy-preserving ML (optional)
+# tensorflow-privacy>=0.9.0
+# pysyft>=0.8.0
+
+# Data handling
+pandas>=2.1.0
+openpyxl>=3.1.0
+
+# Logging and monitoring
+colorlog>=6.8.0
+tqdm>=4.66.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-asyncio>=0.21.0
+
+# Security
+cryptography>=41.0.0
+
+# Utilities
+jinja2>=3.1.0
+pyyaml>=6.0.0
