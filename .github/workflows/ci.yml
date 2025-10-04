@@ -69,7 +69,7 @@ jobs:
     
     - name: Check import sorting with isort
       run: |
-        isort --check-only src tests
+        isort --profile black --check-only src tests
 
   security:
     runs-on: ubuntu-latest
