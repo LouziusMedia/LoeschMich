@@ -211,6 +211,8 @@ Unterstützte Modelle:
 - ✅ SMTP-Zugangsdaten in `.env` (nicht im Repo)
 - ✅ Open-Source und transparent
 
+> Hinweis: Im CI läuft ein wöchentlicher, nicht-blockierender Security-Check (safety/bandit). Ergebnisse werden in Pull Requests als Kommentar zusammengefasst.
+
 ## 📖 Rechtliche Grundlagen
 
 Dieses Tool basiert auf:

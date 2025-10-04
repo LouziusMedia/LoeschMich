@@ -10,6 +10,8 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
+  issues: write
 
 jobs:
   test:
@@ -91,10 +93,53 @@ jobs:
         pip install -r requirements.txt
         pip install safety bandit
     
-    - name: Run safety check
+    - name: Run safety check (JSON)
       run: |
-        safety check --full-report --ignore-unpinned-requirements
+        safety check --output json --ignore-unpinned-requirements > safety-report.json || true
     
-    - name: Run bandit security scan
+    - name: Run bandit security scan (JSON)
       run: |
-        bandit -r src -lll -q -f json -o bandit-report.json
+        bandit -r src -lll -q -f json -o bandit-report.json || true
+
+    - name: Comment security summary on PR
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          function readJSON(p){ try { return JSON.parse(fs.readFileSync(p,'utf8')); } catch(e){ return null; } }
+          const bandit = readJSON('bandit-report.json');
+          const safety = readJSON('safety-report.json');
+          const banditResults = Array.isArray(bandit?.results) ? bandit.results : [];
+          const safetyResults = Array.isArray(safety?.vulnerabilities) ? safety.vulnerabilities : [];
+
+          const banditCount = banditResults.length;
+          const safetyCount = safetyResults.length;
+
+          const sevEmoji = (sev) => {
+            const s = (sev||'').toString().toUpperCase();
+            if (s.startsWith('H')) return '🛑 HIGH';
+            if (s.startsWith('M')) return '⚠️ MEDIUM';
+            if (s.startsWith('L')) return 'ℹ️ LOW';
+            return 'LOW';
+          };
+
+          const cveLink = (v) => v?.cve ? `(CVE: [${v.cve}](https://nvd.nist.gov/vuln/detail/${v.cve}))` : '';
+
+          const banditTop = banditResults.slice(0,5).map(r => {
+            const sev = sevEmoji(r.issue_severity);
+            return `- ${sev} | ${r.test_id} | ${r.filename}:${r.line_number}\n  ${r.issue_text}`;
+          }).join('\n') || '- None';
+
+          const safetyTop = safetyResults.slice(0,5).map(v => {
+            const sev = sevEmoji(v.severity);
+            const pkg = `${v.package_name} ${v.affected_versions || ''}`.trim();
+            const adv = v.advisory || '';
+            return `- ${sev} | ${pkg} ${cveLink(v)}\n  ${adv}`;
+          }).join('\n') || '- None';
+
+          const header = `🔐 Security scan summary`;
+          const counts = `- Bandit findings: ${banditCount}\n- Safety vulnerabilities: ${safetyCount}`;
+          const body = `${header}\n\n${counts}\n\n**Bandit (top 5)**\n${banditTop}\n\n**Safety (top 5)**\n${safetyTop}`;
+          const { owner, repo } = context.repo;
+          await github.rest.issues.createComment({ owner, repo, issue_number: context.issue.number, body });
